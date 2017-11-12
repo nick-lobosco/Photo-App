@@ -69,6 +69,9 @@ public class UserController
 		}
 		catch(Exception e){}
 	}
+	public void quit(){
+		primaryStage.close();
+	}
 
 	public void newAlbum(){
 		if(user.getAlbums().contains(new Album(newAlbum.getText()))){

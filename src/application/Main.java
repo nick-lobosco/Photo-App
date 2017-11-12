@@ -18,7 +18,7 @@ public class Main extends Application {
 			AnchorPane root = (AnchorPane)loginLoader.load();
 			LoginController controller = loginLoader.getController();
 			controller.start(primaryStage);
-			Scene scene = new Scene(root,100,100);
+			Scene scene = new Scene(root,125,125);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}

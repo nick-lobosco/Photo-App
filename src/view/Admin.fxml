@@ -11,7 +11,7 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="57.0" text="Logout" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="Quit" textAlignment="CENTER" translateX="80.0" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#quit" prefHeight="25.0" prefWidth="45.0" text="Quit" textAlignment="CENTER" translateX="80.0" />
         </items>
       </ToolBar>
       <ListView fx:id="userListView" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />

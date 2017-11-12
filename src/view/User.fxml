@@ -15,7 +15,7 @@
       <TextField fx:id="newAlbum" layoutY="274.0" onAction="#newAlbum" prefHeight="25.0" prefWidth="300.0" promptText="Add New Album" />
       <ButtonBar layoutX="18.0" layoutY="9.0" prefHeight="40.0" prefWidth="200.0">
          <buttons>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="45.0" text="Quit" textAlignment="CENTER" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#quit" prefHeight="25.0" prefWidth="45.0" text="Quit" textAlignment="CENTER" />
             <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="57.0" text="Logout" />
          </buttons>
       </ButtonBar>

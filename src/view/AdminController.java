@@ -67,7 +67,9 @@ public class AdminController
 		newUser.setText("");
 	}
 	
-	
+	public void quit(){
+		primaryStage.close();
+	}
 	public void logout(){
 		try{
 			FXMLLoader loginLoader = new FXMLLoader();
