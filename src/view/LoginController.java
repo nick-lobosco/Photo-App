@@ -3,6 +3,7 @@ package view;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -14,6 +15,7 @@ public class LoginController
 {
 	
 	@FXML TextField username;
+	@FXML Label errorMessage;
 	Admin admin;
 	Stage primaryStage;
 	
@@ -60,6 +62,9 @@ public class LoginController
 			int index = admin.getUserList().indexOf(new User(username.getText()));
 			if(index != -1)
 				startUser(admin.getUserList().get(index));
+			else
+				errorMessage.setVisible(true);
+				username.setText("");
 		}
 
 	}

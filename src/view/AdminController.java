@@ -4,11 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -63,7 +65,15 @@ public class AdminController
 	}
 	
 	public void newUser(ActionEvent e){
-		this.admin.addNewUser(newUser.getText());
+		if(!admin.getUserList().contains(new User(newUser.getText()))){
+			this.admin.addNewUser(newUser.getText());
+		}
+		else{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Invalid username");
+			alert.setContentText("Invalid username");
+			alert.showAndWait();
+		}
 		newUser.setText("");
 	}
 	
@@ -77,7 +87,7 @@ public class AdminController
 			AnchorPane root = (AnchorPane)loginLoader.load();
 			LoginController controller = loginLoader.getController();
 			controller.start(primaryStage);
-			Scene scene = new Scene(root,100,100);
+			Scene scene = new Scene(root,125,125);
 			primaryStage.setScene(scene);
 		}
 		catch(Exception e){}

@@ -64,7 +64,7 @@ public class UserController
 			AnchorPane root = (AnchorPane)loginLoader.load();
 			LoginController controller = loginLoader.getController();
 			controller.start(primaryStage);
-			Scene scene = new Scene(root,100,100);
+			Scene scene = new Scene(root,125,125);
 			primaryStage.setScene(scene);
 		}
 		catch(Exception e){}
@@ -165,7 +165,7 @@ public class UserController
         Label label = new Label("");
         Pane pane = new Pane();
         Button delButton = new Button("Del");
-        Button editButton = new Button("Edit");
+        Button editButton = new Button("Rename");
         Button openButton = new Button("Open");
 
         public void editBtn(Album album){
