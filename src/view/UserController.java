@@ -158,8 +158,19 @@ public class UserController
 	}
 	//public Album search(){	}
 	 public void openAlbum(Album album){
-     	
+		 
+		 try{
+		 	FXMLLoader albumLoader = new FXMLLoader();
+			albumLoader.setLocation(getClass().getResource("/view/Album.fxml"));
+			AnchorPane root = (AnchorPane)albumLoader.load();
+			AlbumController controller = albumLoader.getController();
+			controller.start(primaryStage, album);
+			Scene scene = new Scene(root,420,450);
+			primaryStage.setScene(scene);
+		 }
+		 catch(Exception e){e.printStackTrace();}
      }
+	 
 	class XCell extends ListCell<Album> {
         HBox hbox = new HBox();
         Label label = new Label("");
