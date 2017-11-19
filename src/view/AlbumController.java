@@ -17,26 +17,24 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Pair;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import objects.Album;
 import objects.Photo;
 import objects.Tag;
@@ -50,10 +48,10 @@ public class AlbumController {
 	ObservableList<Photo> obsList;
 	@FXML Text title;
 	@FXML ListView<Photo> listView;
-	@FXML Button addTag;
-	@FXML Button deleteTag;
-	@FXML Button move;
-	@FXML Button copy;
+	@FXML MenuItem addTag;
+	@FXML MenuItem deleteTag;
+	@FXML MenuItem move;
+	@FXML MenuItem copy;
 	
 	public void start(Stage primaryStage, Album album, User user)
 	{
@@ -293,8 +291,9 @@ public class AlbumController {
 			return;
 		}
 		
-		Button btn = (Button) e.getSource();
-		Boolean isMove = btn==move;
+		MenuItem item = (MenuItem)e.getSource();
+		//Button btn = (Button) e.getSource();
+		Boolean isMove = item==move;
 		
 		Dialog<String> dialog = new Dialog<>();
 		dialog.setTitle(isMove ? "Move Photo":"Copy Photo");
@@ -338,7 +337,9 @@ public class AlbumController {
 			}
 			else{
 				Album al = user.getAlbums().get(user.getAlbums().indexOf(new Album(name)));
-				al.addPhoto(photo.copy());
+				Photo photoRef = photo;
+				al.addPhoto(photoRef);
+				//al.addPhoto(photo.copy());
 				if(isMove)
 				{
 					this.album.getPhotos().remove(photo);
@@ -349,7 +350,8 @@ public class AlbumController {
 	
 	public void editTag(ActionEvent e)
 	{
-		Button btn = (Button)e.getSource();
+		//System.out.println(e);
+		MenuItem item = (MenuItem)e.getSource();
 		if(listView.getSelectionModel().getSelectedItem() ==null)
 		{
 			return;
@@ -361,7 +363,7 @@ public class AlbumController {
 				
 				ButtonType addButtonType = new ButtonType("Add", ButtonData.OK_DONE);
 				ButtonType delButtonType = new ButtonType("Delete", ButtonData.OK_DONE);
-				dialog.getDialogPane().getButtonTypes().addAll(btn==addTag ? addButtonType:delButtonType
+				dialog.getDialogPane().getButtonTypes().addAll(item==addTag ? addButtonType:delButtonType
 						, ButtonType.CANCEL);
 
 				// Create the type and value labels and fields.
@@ -401,12 +403,12 @@ public class AlbumController {
 					}
 					
 					Tag newTag = new Tag(result.get().getKey(), result.get().getValue());
-					if(btn == addTag){
+					if(item == addTag){
 						if(!tags.contains(newTag))
 							System.out.println("Addig:"+ newTag);
 							tags.add(newTag);
 					}
-					if(btn == deleteTag)
+					if(item == deleteTag)
 					{
 						if(tags.remove(newTag))
 						{
