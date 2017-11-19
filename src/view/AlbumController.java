@@ -48,7 +48,7 @@ public class AlbumController {
 			            setText(item.getCaption());
 			            
 			            ImageView iv = new ImageView();
-			            Image i = new Image(item.getPath(),100,100,false,true);
+			            Image i = new Image(item.getPath(),50,50,false,true);
 //			            File f = new File(getClass().getResource("/img/camera000.jpg").toExternalForm());  
 ////			            System.out.println(f.getAbsolutePath());
 //			            Image i;
