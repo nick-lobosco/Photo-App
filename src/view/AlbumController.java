@@ -211,7 +211,7 @@ public class AlbumController {
 				ObservableList<Photo> newP = FXCollections.observableArrayList();
 				for(Photo p: album.getPhotos())
 				{
-					newP.add(new Photo(p.getPath(),p.getCaption()));
+					newP.add(new Photo(p.getPath(),p.getCaption(), p.getTags()));
 				}
 				
 				user.getAlbums().add(new Album(name, newP));
@@ -260,7 +260,7 @@ public class AlbumController {
 		{
 			int index = listView.getSelectionModel().getSelectedIndex();
 			obsList.remove(index);
-			obsList.add(index, new Photo(photo.getPath(), result.get()));
+			obsList.add(index, new Photo(photo.getPath(), result.get(), photo.getTags()));
 			listView.getSelectionModel().select(index);
 		}
 	}

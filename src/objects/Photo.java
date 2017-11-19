@@ -1,5 +1,7 @@
 package objects;
 
+import java.text.SimpleDateFormat;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,13 +22,35 @@ public class Photo
 //	}
 	public Photo(String path)
 	{
-		capture = LocalDateTime.now();
+		capture = getDate(path);
 		this.path = path;
 	}
 	public Photo(String path, String caption){
-		capture = LocalDateTime.now();
+		capture = getDate(path);
 		this.caption = caption;
 		this.path = path;
+	}
+	public Photo(String path, String caption, ArrayList<Tag> tags){
+		capture = getDate(path);
+		this.caption = caption;
+		this.path = path;
+		this.tags = tags;
+	}
+	public Photo copy()
+	{
+		return new Photo(this.getPath(),this.getCaption(),this.getTags());
+	}
+	private LocalDateTime getDate(String fpath)
+	{
+		File f = new File(fpath.substring(5));
+		java.text.SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String formated = formatter.format(f.lastModified());
+		
+		 DateTimeFormatter dformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 
+		 LocalDateTime ans = LocalDateTime.parse(formated, dformatter);
+		 return ans;
+		 
 	}
 	
 	public boolean matches(LocalDate startDate, LocalDate endDate, ObservableList<Tag> searchTags){

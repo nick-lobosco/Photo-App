@@ -36,6 +36,7 @@ public class DisplayController {
 		label.setText("Caption: "+ photo.getCaption() + "\n"+
 					   "Tags: "+ photo.tagString() + "\n"+
 						"Date: "+ photo.formatedDate());
+		System.out.println(photo.tagString());
 		
 	}
 	
