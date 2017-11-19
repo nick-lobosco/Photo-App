@@ -13,24 +13,26 @@
       <AnchorPane layoutX="-20.0" layoutY="7.0" prefHeight="450.0" prefWidth="420.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ListView fx:id="listView" layoutX="41.0" layoutY="53.0" prefHeight="280.0" prefWidth="350.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-            <Button ellipsisString="" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Logout" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="315.0" onAction="#logout"/>
-            <Button layoutX="349.0" layoutY="14.0" mnemonicParsing="false" text="Quit" AnchorPane.leftAnchor="349.0" AnchorPane.rightAnchor="20.0" onAction="#quit"/>
+            <Button ellipsisString="" layoutX="20.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="75.0" text="Logout" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="315.0" />
+            <Button layoutX="349.0" layoutY="14.0" mnemonicParsing="false" onAction="#quit" text="Quit" AnchorPane.leftAnchor="349.0" AnchorPane.rightAnchor="20.0" />
             <Text fx:id="title" layoutX="176.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Album Name" AnchorPane.bottomAnchor="418.0" AnchorPane.leftAnchor="176.0" AnchorPane.rightAnchor="175.19140625" AnchorPane.topAnchor="18.0">
                <font>
                   <Font size="14.0" />
                </font></Text>
-            <Button layoutX="142.0" layoutY="362.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Slideshow" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="154.0" />
+            <Button layoutX="142.0" layoutY="344.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Slideshow" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="154.0" />
             <ButtonBar layoutX="14.0" layoutY="399.0" prefHeight="40.0" prefWidth="381.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="26.0">
               <buttons>
                 <Button mnemonicParsing="false" text="View" />
-                  <Button mnemonicParsing="false" text="Edit" />
-                  <Button mnemonicParsing="false" text="Delete" />
-                  <Button mnemonicParsing="false" text="Add" onAction="#add"/>
+                  <Button mnemonicParsing="false" text="Edit" onAction="#editCaption"/>
+                  <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
+                  <Button mnemonicParsing="false" onAction="#add" text="Add" />
               </buttons>
                <padding>
                   <Insets right="25.0" />
                </padding>
             </ButtonBar>
+            <Button fx:id="addTag" layoutX="137.0" layoutY="374.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add Tag" onAction="#editTag"/>
+            <Button fx:id="deleteTag" layoutX="221.0" layoutY="374.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Delete Tag" onAction="#editTag"/>
          </children></AnchorPane>
    </children>
 </AnchorPane>

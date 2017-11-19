@@ -11,7 +11,7 @@ public class Tag
 	}
 	
 	public boolean equals(Object o){
-		if(!(o instanceof User))
+		if(!(o instanceof Tag))
 			return false;
 		Tag t = (Tag)o;
 		if(t.type.equals(type) && t.value.equals(value))

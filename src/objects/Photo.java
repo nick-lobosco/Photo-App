@@ -12,7 +12,7 @@ public class Photo
 	String caption;
 	String path;
 	LocalDateTime capture;
-	ArrayList<Tag> tags;
+	ArrayList<Tag> tags = new ArrayList<Tag>();
 	
 //	public Photo(){
 //		capture = LocalDateTime.now();
@@ -48,7 +48,15 @@ public class Photo
 	public String getCaption(){
 		return this.caption==null ? "" : this.caption;
 	}
+	public void setCaption(String s)
+	{
+		this.caption = s;
+	}
 	public String getPath(){
 		return this.path;
+	}
+	public ArrayList<Tag> getTags()
+	{
+		return this.tags;
 	}
 }

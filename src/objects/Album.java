@@ -19,6 +19,7 @@ public class Album
 		earliestDate = LocalDate.now();
 		latestDate = LocalDate.now();
 		photos.add(new Photo("file:C:/image.jpg","Caption1"));
+//		photos.add(new Photo("file:C:/Users/basis_000/Desktop/image.jpg","Caption1"));
 		photos.add(new Photo(getClass().getResource("/data/camera000.jpg").toExternalForm(),"Caption2"));
 	}
 	
@@ -29,12 +30,8 @@ public class Album
 		latestDate = LocalDate.now();
 	}
 	
-	void addPhoto(){
-		
-	}
-	
-	void deletePhoto(){
-		
+	public void addPhoto(Photo p){
+		this.photos.add(p);
 	}
 	
 	public ObservableList<Photo> getPhotos(){
