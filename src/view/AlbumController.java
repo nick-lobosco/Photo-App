@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -36,21 +39,24 @@ import javafx.stage.Stage;
 import objects.Album;
 import objects.Photo;
 import objects.Tag;
+import objects.User;
 
 public class AlbumController {
 	
 	Stage primaryStage;
 	Album album;
+	User user;
 	ObservableList<Photo> obsList;
 	@FXML Text title;
 	@FXML ListView<Photo> listView;
 	@FXML Button addTag;
 	@FXML Button deleteTag;
 	
-	public void start(Stage primaryStage, Album album)
+	public void start(Stage primaryStage, Album album, User user)
 	{
 		this.primaryStage = primaryStage;
 		this.album = album;
+		this.user = user;
 		this.obsList = album.getPhotos();
 		title.setText(album.getName());
 //		listView.setCellFactory(p -> new PhotoCell());
@@ -94,6 +100,22 @@ public class AlbumController {
 	public void quit(){
 		primaryStage.close();
 	}
+	public void goBack()
+	{
+		try{
+			FXMLLoader userLoader = new FXMLLoader();
+			userLoader.setLocation(getClass().getResource("/view/User.fxml"));
+			AnchorPane userPane = (AnchorPane)userLoader.load();
+			UserController userController = userLoader.getController();
+			System.out.println(1);
+			userController.start(primaryStage, user);
+			System.out.println(2);
+			Scene userScene = new Scene(userPane,500,300);
+			primaryStage.setScene(userScene);
+		}catch(Exception z){
+			System.out.println(z);
+		}
+	}
 	
 	public void add()
 	{
@@ -105,6 +127,7 @@ public class AlbumController {
 		         new ExtensionFilter("All Files", "*.*"));
 		 File selectedFile = fileChooser.showOpenDialog(primaryStage);
 		 try {
+			 System.out.println(selectedFile.toURI().toURL().toString());
 			album.getPhotos().add(new Photo(selectedFile.toURI().toURL().toString()));
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -114,7 +137,62 @@ public class AlbumController {
 	
 	public void delete()
 	{
-		obsList.remove(listView.getSelectionModel().getSelectedIndex());
+		if(!listView.getSelectionModel().isEmpty()){
+			obsList.remove(listView.getSelectionModel().getSelectedIndex());
+		}
+	}
+	
+	public void save(){
+		Dialog<String> dialog = new Dialog<>();
+		dialog.setTitle("Save Album");
+		
+		ButtonType okType = new ButtonType("Save", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(okType, ButtonType.CANCEL);
+
+		// Create the type and value labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField albumName = new TextField();
+		albumName.setPromptText("album name");
+		grid.add(new Label("Enter Album Name:"), 0, 0);
+		grid.add(albumName, 1, 0);
+
+		dialog.getDialogPane().setContent(grid);
+		
+		// Request focus on the caption field by default.
+		Platform.runLater(() -> albumName.requestFocus());
+		
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == okType) {
+		        return albumName.getText();
+		    }
+		    return null;
+		});
+		Optional<String> result = dialog.showAndWait();
+		
+		if(result.isPresent())
+		{
+			String name = result.get();
+			
+			if(user.getAlbums().contains(new Album(name))){
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Invalid Album Name");
+				alert.setContentText("Invalid Album Name");
+				alert.showAndWait();
+			}
+			else{
+				ObservableList<Photo> newP = FXCollections.observableArrayList();
+				for(Photo p: album.getPhotos())
+				{
+					newP.add(new Photo(p.getPath(),p.getCaption()));
+				}
+				
+				user.getAlbums().add(new Album(name, newP));
+			}
+		}
 	}
 	
 	public void editCaption()

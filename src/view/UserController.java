@@ -165,7 +165,7 @@ public class UserController
 			albumLoader.setLocation(getClass().getResource("/view/Album.fxml"));
 			AnchorPane root = (AnchorPane)albumLoader.load();
 			AlbumController controller = albumLoader.getController();
-			controller.start(primaryStage, album);
+			controller.start(primaryStage, album, user);
 			Scene scene = new Scene(root,420,450);
 			primaryStage.setScene(scene);
 		 }

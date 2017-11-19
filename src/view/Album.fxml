@@ -23,7 +23,7 @@
             <ButtonBar layoutX="14.0" layoutY="399.0" prefHeight="40.0" prefWidth="381.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="26.0">
               <buttons>
                 <Button mnemonicParsing="false" text="View" />
-                  <Button mnemonicParsing="false" text="Edit" onAction="#editCaption"/>
+                  <Button mnemonicParsing="false" onAction="#editCaption" text="Edit" />
                   <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
                   <Button mnemonicParsing="false" onAction="#add" text="Add" />
               </buttons>
@@ -31,8 +31,10 @@
                   <Insets right="25.0" />
                </padding>
             </ButtonBar>
-            <Button fx:id="addTag" layoutX="137.0" layoutY="374.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add Tag" onAction="#editTag"/>
-            <Button fx:id="deleteTag" layoutX="221.0" layoutY="374.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Delete Tag" onAction="#editTag"/>
+            <Button fx:id="addTag" layoutX="137.0" layoutY="374.0" mnemonicParsing="false" onAction="#editTag" prefHeight="25.0" prefWidth="75.0" text="Add Tag" />
+            <Button fx:id="deleteTag" layoutX="221.0" layoutY="374.0" mnemonicParsing="false" onAction="#editTag" prefHeight="25.0" prefWidth="75.0" text="Delete Tag" />
+            <Button layoutX="296.0" layoutY="15.0" mnemonicParsing="false" text="Back" onAction="#goBack"/>
+            <Button layoutX="20.0" layoutY="344.0" mnemonicParsing="false" text="Save Album" onAction="#save"/>
          </children></AnchorPane>
    </children>
 </AnchorPane>
