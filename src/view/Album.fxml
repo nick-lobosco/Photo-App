@@ -25,7 +25,7 @@
                 <Button mnemonicParsing="false" text="View" />
                   <Button mnemonicParsing="false" text="Edit" />
                   <Button mnemonicParsing="false" text="Delete" />
-                  <Button mnemonicParsing="false" text="Add" />
+                  <Button mnemonicParsing="false" text="Add" onAction="#add"/>
               </buttons>
                <padding>
                   <Insets right="25.0" />

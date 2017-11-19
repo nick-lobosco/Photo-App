@@ -14,8 +14,13 @@ public class Photo
 	LocalDateTime capture;
 	ArrayList<Tag> tags;
 	
-	public Photo(){
+//	public Photo(){
+//		capture = LocalDateTime.now();
+//	}
+	public Photo(String path)
+	{
 		capture = LocalDateTime.now();
+		this.path = path;
 	}
 	public Photo(String path, String caption){
 		capture = LocalDateTime.now();

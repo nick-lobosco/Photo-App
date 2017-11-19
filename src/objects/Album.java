@@ -18,8 +18,8 @@ public class Album
 		photos = FXCollections.observableArrayList();
 		earliestDate = LocalDate.now();
 		latestDate = LocalDate.now();
-		photos.add(new Photo("file:C:/image.jpg","Caption"));
-//		photos.add(new Photo(getClass().getResource("/data/camera000.jpg").toExternalForm(),"Caption"));
+		photos.add(new Photo("file:C:/image.jpg","Caption1"));
+		photos.add(new Photo(getClass().getResource("/data/camera000.jpg").toExternalForm(),"Caption2"));
 	}
 	
 	public Album(String name, ObservableList<Photo> photos){

@@ -19,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import objects.Album;
 import objects.Photo;
@@ -75,6 +77,28 @@ public class AlbumController {
 	}
 	public void quit(){
 		primaryStage.close();
+	}
+	
+	public void add()
+	{
+		 FileChooser fileChooser = new FileChooser();
+		 fileChooser.setTitle("Open Resource File");
+		 fileChooser.getExtensionFilters().addAll(
+		         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+		         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+		         new ExtensionFilter("All Files", "*.*"));
+		 File selectedFile = fileChooser.showOpenDialog(primaryStage);
+		 try {
+			System.out.println(selectedFile.toURI().toURL().toString());
+			obsList.add(new Photo("file:C:/image.jpg","Caption1"));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		 obsList.add(new Photo(selectedFile.toURI().toURL().toString()));
+//		 if (selectedFile != null) {
+//		    primaryStage.display(selectedFile);
+//		 }
 	}
 	
 	
