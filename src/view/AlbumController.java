@@ -49,17 +49,6 @@ public class AlbumController {
 			            
 			            ImageView iv = new ImageView();
 			            Image i = new Image(item.getPath(),50,50,false,true);
-//			            File f = new File(getClass().getResource("/img/camera000.jpg").toExternalForm());  
-////			            System.out.println(f.getAbsolutePath());
-//			            Image i;
-//						try {
-//							i = new Image(f.toURI().toURL().toString(),100,100,false,true);
-//							iv.setImage(i);
-//							System.out.println(f.toURI().toURL().toExternalForm());
-//						} catch (MalformedURLException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
 						iv.setImage(i);
 						Rectangle2D viewportRect = new Rectangle2D(0, 0, 50, 50);
 				        iv.setViewport(viewportRect);
