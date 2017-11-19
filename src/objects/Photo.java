@@ -2,6 +2,7 @@ package objects;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -58,5 +59,22 @@ public class Photo
 	public ArrayList<Tag> getTags()
 	{
 		return this.tags;
+	}
+	public String tagString(){
+		String s = "";
+		if(this.tags.isEmpty()){
+			return s;
+		}
+		for(Tag t : this.tags)
+		{
+			s+=t.type + ":" + t.value + ", ";
+		}
+		return s.substring(0, s.lastIndexOf(","));
+	}
+	public String formatedDate()
+	{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		return this.capture.format(formatter);
 	}
 }

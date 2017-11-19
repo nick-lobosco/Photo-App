@@ -22,7 +22,7 @@
             <Button layoutX="142.0" layoutY="344.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Slideshow" AnchorPane.leftAnchor="142.0" AnchorPane.rightAnchor="154.0" />
             <ButtonBar layoutX="14.0" layoutY="399.0" prefHeight="40.0" prefWidth="381.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="26.0">
               <buttons>
-                <Button mnemonicParsing="false" text="View" />
+                <Button mnemonicParsing="false" text="View" onAction="#view"/>
                   <Button mnemonicParsing="false" onAction="#editCaption" text="Edit" />
                   <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
                   <Button mnemonicParsing="false" onAction="#add" text="Add" />

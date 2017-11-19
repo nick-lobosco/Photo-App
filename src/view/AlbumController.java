@@ -22,6 +22,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
@@ -114,6 +115,29 @@ public class AlbumController {
 			primaryStage.setScene(userScene);
 		}catch(Exception z){
 			System.out.println(z);
+		}
+	}
+	
+	public void view()
+	{
+		if(!listView.getSelectionModel().isEmpty())
+		{
+			Photo p = (listView.getSelectionModel().getSelectedItem());
+		
+			try{
+				FXMLLoader dispLoader = new FXMLLoader();
+				dispLoader.setLocation(getClass().getResource("/view/PhotoDisplay.fxml"));
+				SplitPane dispPane = (SplitPane)dispLoader.load();
+				DisplayController dispController = dispLoader.getController();
+				System.out.println(1);
+				dispController.start(primaryStage, p, album, user);
+				System.out.println(2);
+				Scene dispScene = new Scene(dispPane,500,300);
+				primaryStage.setScene(dispScene);
+				System.out.println("done");
+			}catch(Exception z){
+				System.out.println(z);
+			}
 		}
 	}
 	
