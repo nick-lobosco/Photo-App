@@ -38,7 +38,11 @@ public class Photo
 	}
 	public Photo copy()
 	{
-		return new Photo(this.getPath(),this.getCaption(),this.getTags());
+		ArrayList<Tag> newTags = new ArrayList<Tag>();
+		for(Tag t:this.tags){
+			newTags.add(t);
+		}
+		return new Photo(this.getPath(),this.getCaption(),newTags);
 	}
 	private LocalDateTime getDate(String fpath)
 	{

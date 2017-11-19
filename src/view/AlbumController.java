@@ -52,6 +52,8 @@ public class AlbumController {
 	@FXML ListView<Photo> listView;
 	@FXML Button addTag;
 	@FXML Button deleteTag;
+	@FXML Button move;
+	@FXML Button copy;
 	
 	public void start(Stage primaryStage, Album album, User user)
 	{
@@ -108,9 +110,7 @@ public class AlbumController {
 			userLoader.setLocation(getClass().getResource("/view/User.fxml"));
 			AnchorPane userPane = (AnchorPane)userLoader.load();
 			UserController userController = userLoader.getController();
-			System.out.println(1);
 			userController.start(primaryStage, user);
-			System.out.println(2);
 			Scene userScene = new Scene(userPane,500,300);
 			primaryStage.setScene(userScene);
 		}catch(Exception z){
@@ -129,12 +129,28 @@ public class AlbumController {
 				dispLoader.setLocation(getClass().getResource("/view/PhotoDisplay.fxml"));
 				SplitPane dispPane = (SplitPane)dispLoader.load();
 				DisplayController dispController = dispLoader.getController();
-				System.out.println(1);
 				dispController.start(primaryStage, p, album, user);
-				System.out.println(2);
-				Scene dispScene = new Scene(dispPane,500,300);
+				Scene dispScene = new Scene(dispPane,600,440);
 				primaryStage.setScene(dispScene);
-				System.out.println("done");
+			}catch(Exception z){
+				System.out.println(z);
+			}
+		}
+	}
+	
+	public void slideshow()
+	{
+		if(!obsList.isEmpty())
+		{
+		
+			try{
+				FXMLLoader dispLoader = new FXMLLoader();
+				dispLoader.setLocation(getClass().getResource("/view/Slideshow.fxml"));
+				SplitPane dispPane = (SplitPane)dispLoader.load();
+				SlideshowController dispController = dispLoader.getController();
+				dispController.start(primaryStage, album, user);
+				Scene dispScene = new Scene(dispPane,700,500);
+				primaryStage.setScene(dispScene);
 			}catch(Exception z){
 				System.out.println(z);
 			}
@@ -211,7 +227,8 @@ public class AlbumController {
 				ObservableList<Photo> newP = FXCollections.observableArrayList();
 				for(Photo p: album.getPhotos())
 				{
-					newP.add(new Photo(p.getPath(),p.getCaption(), p.getTags()));
+//					newP.add(new Photo(p.getPath(),p.getCaption(), p.getTags()));
+					newP.add(p.copy());
 				}
 				
 				user.getAlbums().add(new Album(name, newP));
@@ -260,8 +277,73 @@ public class AlbumController {
 		{
 			int index = listView.getSelectionModel().getSelectedIndex();
 			obsList.remove(index);
-			obsList.add(index, new Photo(photo.getPath(), result.get(), photo.getTags()));
+			Photo copy = photo.copy();
+			copy.setCaption(result.get());
+			obsList.add(index,copy);
 			listView.getSelectionModel().select(index);
+		}
+	}
+	
+	public void moveorcopy(ActionEvent e)
+	{
+
+		Photo photo = listView.getSelectionModel().getSelectedItem();
+		if(photo == null)
+		{
+			return;
+		}
+		
+		Button btn = (Button) e.getSource();
+		Boolean isMove = btn==move;
+		
+		Dialog<String> dialog = new Dialog<>();
+		dialog.setTitle(isMove ? "Move Photo":"Copy Photo");
+		
+		ButtonType okType = new ButtonType("Ok", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(okType, ButtonType.CANCEL);
+
+		// Create the type and value labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField albumName = new TextField();
+		albumName.setPromptText("album name");
+		grid.add(new Label("Enter Album Name:"), 0, 0);
+		grid.add(albumName, 1, 0);
+
+		dialog.getDialogPane().setContent(grid);
+		
+		// Request focus on the caption field by default.
+		Platform.runLater(() -> albumName.requestFocus());
+		
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == okType) {
+		        return albumName.getText();
+		    }
+		    return null;
+		});
+		Optional<String> result = dialog.showAndWait();
+		
+		if(result.isPresent())
+		{
+			String name = result.get();
+			
+			if(!user.getAlbums().contains(new Album(name))){
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Invalid Album Name");
+				alert.setContentText("Invalid Album Name: Album Does not exist");
+				alert.showAndWait();
+			}
+			else{
+				Album al = user.getAlbums().get(user.getAlbums().indexOf(new Album(name)));
+				al.addPhoto(photo.copy());
+				if(isMove)
+				{
+					this.album.getPhotos().remove(photo);
+				}
+			}
 		}
 	}
 	

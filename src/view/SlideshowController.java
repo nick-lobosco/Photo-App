@@ -3,41 +3,55 @@ package view;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import objects.Album;
-import objects.Photo;
 import objects.User;
 
-public class DisplayController {
-	Photo photo;
+public class SlideshowController {
 	Album album;
 	Stage primaryStage;
 	User user;
+	int index;
+	int length;
 	@FXML ImageView imView;
-	@FXML Label label;
-	@FXML Button back;
 	
-	public void start(Stage primaryStage, Photo photo, Album album, User user)
+	public void start(Stage primaryStage, Album album, User user)
 	{
-		this.photo = photo;
 		this.album = album;
 		this.primaryStage = primaryStage;
 		this.user = user;
+		this.index = 0;
+		this.length = album.getPhotos().size();
 		
-		Image i = new Image(photo.getPath());
+		Image i = new Image(album.getPhotos().get(index).getPath());
 		imView.setImage(i);
-		imView.setFitHeight(340);
+		imView.setFitHeight(450);
 		
-		label.setText("Caption: "+ photo.getCaption() + "\n"+
-					   "Tags: "+ photo.tagString() + "\n"+
-						"Date: "+ photo.formatedDate());
-		System.out.println(photo.tagString());
-		
+	}
+	
+	public void next()
+	{
+		if(index<length-1)
+		{
+			index++;
+		}
+		Image i = new Image(album.getPhotos().get(index).getPath());
+		imView.setImage(i);
+		imView.setFitHeight(450);		
+	}
+	
+	public void prev()
+	{
+		if(index>0)
+		{
+			index--;
+		}
+		Image i = new Image(album.getPhotos().get(index).getPath());
+		imView.setImage(i);
+		imView.setFitHeight(450);		
 	}
 	
 	public void back()
