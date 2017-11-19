@@ -3,21 +3,26 @@ package objects;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Album
 {
 	String name;
-	ArrayList<Photo> photos;
+	ObservableList<Photo> photos;
 	LocalDate earliestDate;
 	LocalDate latestDate;
 	
 	public Album(String name){
 		this.name = name;
-		photos = new ArrayList<Photo>();
+		photos = FXCollections.observableArrayList();
 		earliestDate = LocalDate.now();
 		latestDate = LocalDate.now();
+//		photos.add(new Photo("file:/img/Capture.PNG","Hi"));
+		photos.add(new Photo(getClass().getResource("/data/camera000.jpg").toExternalForm(),"Caption"));
 	}
 	
-	public Album(String name, ArrayList<Photo> photos){
+	public Album(String name, ObservableList<Photo> photos){
 		this.name = name;
 		this.photos = photos;
 		earliestDate = LocalDate.now();
@@ -32,7 +37,7 @@ public class Album
 		
 	}
 	
-	public ArrayList<Photo> getPhotos(){
+	public ObservableList<Photo> getPhotos(){
 		return photos;
 	}
 	public String getName(){

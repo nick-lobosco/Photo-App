@@ -104,7 +104,8 @@ public class UserController
 					matchingPhotos.add(photo);
 			}
 		}
-		openAlbum(new Album("", matchingPhotos));
+		ObservableList<Photo> obsList = FXCollections.observableArrayList(matchingPhotos);
+		openAlbum(new Album("", obsList));
 		//go through each photo in each album and see if it matches criteria
 		tags.clear();
 		startDate.setValue(null);

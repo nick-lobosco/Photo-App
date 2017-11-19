@@ -10,11 +10,17 @@ import javafx.collections.ObservableList;
 public class Photo
 {
 	String caption;
+	String path;
 	LocalDateTime capture;
 	ArrayList<Tag> tags;
 	
 	public Photo(){
 		capture = LocalDateTime.now();
+	}
+	public Photo(String path, String caption){
+		capture = LocalDateTime.now();
+		this.caption = caption;
+		this.path = path;
 	}
 	
 	public boolean matches(LocalDate startDate, LocalDate endDate, ObservableList<Tag> searchTags){
@@ -29,5 +35,15 @@ public class Photo
 		if(capture.toLocalDate().compareTo(startDate)>=0 && capture.toLocalDate().compareTo(endDate)<=0)
 			return true;
 		return false;
+	}
+	
+	public String toString(){
+		return this.caption;
+	}
+	public String getCaption(){
+		return this.caption==null ? "" : this.caption;
+	}
+	public String getPath(){
+		return this.path;
 	}
 }

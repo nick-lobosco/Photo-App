@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,7 +22,10 @@
         </rowConstraints>
          <children>
             <Label contentDisplay="CENTER" text="Login" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <TextField fx:id="username" alignment="CENTER" onAction="#checkUsername" promptText="Username" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <TextField fx:id="username" alignment="CENTER" onAction="#checkUsername" promptText="Username" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></TextField>
             <Label text="Username:" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label fx:id="errorMessage" text="Invalid Username" textFill="#d70a0a" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
          </children>
