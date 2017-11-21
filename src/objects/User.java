@@ -1,24 +1,23 @@
 package objects;
 
-import javafx.collections.FXCollections;
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import javafx.collections.ObservableList;
 
-public class User
+public class User implements Serializable
 {
 	public String username;
-	private ObservableList<Album> albums;
+	private ArrayList<Album> albums;
+	//private ObservableList<Album> albums;
 	
 	public User(String username){
 		this.username = username;
-		albums = FXCollections.observableArrayList();
-		albums.add(new Album("new album"));
+		albums = new ArrayList<Album>();
 	}
 	
-	public ObservableList<Album> getAlbums(){
+	public ArrayList<Album> getAlbums(){
 		return albums;
-	}
-	public String toString(){
-		return username;
 	}
 	
 	public boolean equals(Object o){
@@ -35,6 +34,17 @@ public class User
 	
 	public void renameAlbum(String albumName, String newName){
 		albums.get(albums.indexOf(new Album(albumName))).changeName(newName);
+	}
+	
+	public String toString(){
+		return username;
+	}
+	
+	public void updateArray(ObservableList<Album> albums){
+		this.albums.clear();
+		for(Album a: albums){
+			this.albums.add(a);
+		}
 	}
 	
 	

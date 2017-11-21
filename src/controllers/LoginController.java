@@ -1,4 +1,8 @@
-package view;
+package controllers;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +15,7 @@ import objects.Admin;
 import objects.User;
 
 
-public class LoginController
+public class LoginController extends Controller
 {
 	
 	@FXML TextField username;
@@ -21,7 +25,19 @@ public class LoginController
 	
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		admin = new Admin();
+		try {
+	         FileInputStream fileIn = new FileInputStream("src/serializedObjects/admin");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         admin = (Admin) in.readObject();
+	         if(admin == null)
+	        	 admin = new Admin();
+	         in.close();
+	         fileIn.close();
+	      } catch (IOException i) {
+	    	 admin = new Admin();
+	      } catch (ClassNotFoundException c) {
+	    	 admin = new Admin();
+	      }
 	}
 	
 	public void startAdmin(){
@@ -44,9 +60,7 @@ public class LoginController
 			userLoader.setLocation(getClass().getResource("/view/User.fxml"));
 			AnchorPane userPane = (AnchorPane)userLoader.load();
 			UserController userController = userLoader.getController();
-			System.out.println(1);
-			userController.start(primaryStage, user);
-			System.out.println(2);
+			userController.start(primaryStage, user, admin);
 			Scene userScene = new Scene(userPane,500,300);
 			primaryStage.setScene(userScene);
 		}catch(Exception z){
@@ -59,9 +73,9 @@ public class LoginController
 			startAdmin();
 		}
 		else{
-			int index = admin.getUserList().indexOf(new User(username.getText()));
+			int index = admin.getList().indexOf(new User(username.getText()));
 			if(index != -1)
-				startUser(admin.getUserList().get(index));
+				startUser(admin.getList().get(index));
 			else
 				errorMessage.setVisible(true);
 				username.setText("");

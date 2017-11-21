@@ -2,6 +2,7 @@ package objects;
 
 import java.text.SimpleDateFormat;
 import java.io.File;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +11,7 @@ import java.util.Iterator;
 
 import javafx.collections.ObservableList;
 
-public class Photo
+public class Photo implements Serializable
 {
 	String caption;
 	String path;

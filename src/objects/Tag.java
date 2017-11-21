@@ -1,7 +1,8 @@
 package objects;
 
+import java.io.Serializable;
 
-public class Tag
+public class Tag implements Serializable
 {
 	String type;
 	String value;

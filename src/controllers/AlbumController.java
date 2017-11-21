@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -30,22 +30,28 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import objects.Admin;
 import objects.Album;
 import objects.Photo;
 import objects.Tag;
 import objects.User;
 
-public class AlbumController {
+public class AlbumController extends Controller
+{
 	
 	Stage primaryStage;
 	Album album;
+	Admin admin;
 	User user;
-	ObservableList<Photo> obsList;
+	ObservableList<Photo> photos;
 	@FXML Text title;
 	@FXML ListView<Photo> listView;
 	@FXML MenuItem addTag;
@@ -53,62 +59,56 @@ public class AlbumController {
 	@FXML MenuItem move;
 	@FXML MenuItem copy;
 	
-	public void start(Stage primaryStage, Album album, User user)
+	public void start(Stage primaryStage, Album album, User user, Admin admin)
 	{
+		this.admin = admin;
 		this.primaryStage = primaryStage;
 		this.album = album;
 		this.user = user;
-		this.obsList = album.getPhotos();
+		this.photos = FXCollections.observableArrayList();
+		for(Photo p:album.getPhotos()){
+			photos.add(p);
+		}
+		listView.setItems(photos);
 		title.setText(album.getName());
-//		listView.setCellFactory(p -> new PhotoCell());
 		listView.setCellFactory(l -> new ListCell<Photo>(){
 			 public void updateItem(final Photo item, final boolean empty) {
-				 super.updateItem(item, empty);
-				 Button button = new Button("(>)");
-			        if (empty) {
-			            setText(null);
-			            setGraphic(null);
-			        } else {
-			            setText(item.getCaption());
-			            
-			            ImageView iv = new ImageView();
-			            Image i = new Image(item.getPath(),50,50,false,true);
-						iv.setImage(i);
-						Rectangle2D viewportRect = new Rectangle2D(0, 0, 50, 50);
-				        iv.setViewport(viewportRect);
-			            setGraphic(iv);
-			        }
-			    }
+				super.updateItem(item, empty);
+		        if (empty) {
+		            setText(null);
+		            setGraphic(null);
+		        } else {
+		            setText(item.getCaption());
+		            
+		            ImageView iv = new ImageView();
+		            Image i = new Image(item.getPath(),50,50,false,true);
+					iv.setImage(i);
+					Rectangle2D viewportRect = new Rectangle2D(0, 0, 50, 50);
+			        iv.setViewport(viewportRect);
+		            setGraphic(iv);
+		        }
+		    }
 		});
-		
-		listView.setItems(obsList);
-		
 	}
 	
-	public void logout()
-	{
-		try{
-			FXMLLoader loginLoader = new FXMLLoader();
-			loginLoader.setLocation(getClass().getResource("/view/Login.fxml"));
-			AnchorPane root = (AnchorPane)loginLoader.load();
-			LoginController controller = loginLoader.getController();
-			controller.start(primaryStage);
-			Scene scene = new Scene(root,125,125);
-			primaryStage.setScene(scene);
-		}
-		catch(Exception e){}
+	public void logout(){
+		album.updateArray(photos);
+		super.parentLogout(admin, primaryStage);
 	}
 	public void quit(){
-		primaryStage.close();
+		album.updateArray(photos);
+		super.parentQuit(admin, primaryStage);
 	}
+	
 	public void goBack()
 	{
+		album.updateArray(photos);
 		try{
 			FXMLLoader userLoader = new FXMLLoader();
 			userLoader.setLocation(getClass().getResource("/view/User.fxml"));
 			AnchorPane userPane = (AnchorPane)userLoader.load();
 			UserController userController = userLoader.getController();
-			userController.start(primaryStage, user);
+			userController.start(primaryStage, user, admin);
 			Scene userScene = new Scene(userPane,500,300);
 			primaryStage.setScene(userScene);
 		}catch(Exception z){
@@ -118,6 +118,7 @@ public class AlbumController {
 	
 	public void view()
 	{
+		album.updateArray(photos);
 		if(!listView.getSelectionModel().isEmpty())
 		{
 			Photo p = (listView.getSelectionModel().getSelectedItem());
@@ -127,7 +128,7 @@ public class AlbumController {
 				dispLoader.setLocation(getClass().getResource("/view/PhotoDisplay.fxml"));
 				SplitPane dispPane = (SplitPane)dispLoader.load();
 				DisplayController dispController = dispLoader.getController();
-				dispController.start(primaryStage, p, album, user);
+				dispController.start(primaryStage, p, album, user, admin);
 				Scene dispScene = new Scene(dispPane,600,440);
 				primaryStage.setScene(dispScene);
 			}catch(Exception z){
@@ -138,7 +139,8 @@ public class AlbumController {
 	
 	public void slideshow()
 	{
-		if(!obsList.isEmpty())
+		album.updateArray(photos);
+		if(!photos.isEmpty())
 		{
 		
 			try{
@@ -146,7 +148,7 @@ public class AlbumController {
 				dispLoader.setLocation(getClass().getResource("/view/Slideshow.fxml"));
 				SplitPane dispPane = (SplitPane)dispLoader.load();
 				SlideshowController dispController = dispLoader.getController();
-				dispController.start(primaryStage, album, user);
+				dispController.start(primaryStage, album, user, admin);
 				Scene dispScene = new Scene(dispPane,700,500);
 				primaryStage.setScene(dispScene);
 			}catch(Exception z){
@@ -157,26 +159,29 @@ public class AlbumController {
 	
 	public void add()
 	{
-		 FileChooser fileChooser = new FileChooser();
-		 fileChooser.setTitle("Open Resource File");
-		 fileChooser.getExtensionFilters().addAll(
-		         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
-		         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
-		         new ExtensionFilter("All Files", "*.*"));
-		 File selectedFile = fileChooser.showOpenDialog(primaryStage);
-		 try {
-			 System.out.println(selectedFile.toURI().toURL().toString());
-			album.getPhotos().add(new Photo(selectedFile.toURI().toURL().toString()));
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try{
+			FileChooser fileChooser = new FileChooser();
+			 fileChooser.setTitle("Open Resource File");
+			 fileChooser.getExtensionFilters().addAll(
+			         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+			         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+			         new ExtensionFilter("All Files", "*.*"));
+			 File selectedFile = fileChooser.showOpenDialog(primaryStage);
+			 try {
+				 //System.out.println(selectedFile.toURI().toURL().toString());
+				photos.add(new Photo(selectedFile.toURI().toURL().toString()));
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
 		}
+		catch(Exception f){}
 	}
 	
 	public void delete()
 	{
 		if(!listView.getSelectionModel().isEmpty()){
-			obsList.remove(listView.getSelectionModel().getSelectedIndex());
+			photos.remove(listView.getSelectionModel().getSelectedIndex());
 		}
 	}
 	
@@ -222,14 +227,7 @@ public class AlbumController {
 				alert.showAndWait();
 			}
 			else{
-				ObservableList<Photo> newP = FXCollections.observableArrayList();
-				for(Photo p: album.getPhotos())
-				{
-//					newP.add(new Photo(p.getPath(),p.getCaption(), p.getTags()));
-					newP.add(p.copy());
-				}
-				
-				user.getAlbums().add(new Album(name, newP));
+				user.getAlbums().add(new Album(name, album.getPhotos()));
 			}
 		}
 	}
@@ -274,10 +272,10 @@ public class AlbumController {
 		if(result.isPresent())
 		{
 			int index = listView.getSelectionModel().getSelectedIndex();
-			obsList.remove(index);
+			photos.remove(index);
 			Photo copy = photo.copy();
 			copy.setCaption(result.get());
-			obsList.add(index,copy);
+			photos.add(index,copy);
 			listView.getSelectionModel().select(index);
 		}
 	}
@@ -342,7 +340,7 @@ public class AlbumController {
 				//al.addPhoto(photo.copy());
 				if(isMove)
 				{
-					this.album.getPhotos().remove(photo);
+					photos.remove(photo);
 				}
 			}
 		}
@@ -405,54 +403,12 @@ public class AlbumController {
 					Tag newTag = new Tag(result.get().getKey(), result.get().getValue());
 					if(item == addTag){
 						if(!tags.contains(newTag))
-							System.out.println("Addig:"+ newTag);
 							tags.add(newTag);
 					}
 					if(item == deleteTag)
 					{
-						if(tags.remove(newTag))
-						{
-							System.out.println("Deleted: "+ newTag);
-						}						
+						tags.remove(newTag);					
 					}
 				}
 	}
-	
-	
-//	class PhotoCell extends ListCell<Photo>{
-//		HBox hbox = new HBox();
-//	    Label label = new Label("(empty)");
-//	    Pane pane = new Pane();
-//		ImageView iv = new ImageView();
-//		
-//		public PhotoCell()
-//		{
-//			super();
-//			hbox.getChildren().addAll(iv, pane, label);
-//			HBox.setHgrow(pane, Priority.ALWAYS);
-//		}
-//		
-//		@Override
-//		protected void updateItem(Photo item, boolean empty)
-//		{
-//			super.updateItem(item, empty);
-//			setText(null);
-//			if(empty || item == null)
-//			{
-//				setGraphic(null);
-//			}
-//			else{
-//				label.setText(item.getCaption());
-//				Image i = new Image(item.getPath());
-//				iv.setImage(i);
-////				Rectangle2D viewportRect = new Rectangle2D(40, 35, 10,10);
-////				iv.setViewport(viewportRect);
-//				setGraphic(iv);
-//			}
-//		}
-//		
-//		
-//	}
-
-
 }

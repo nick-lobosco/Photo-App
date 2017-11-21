@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,15 +30,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import objects.Admin;
 import objects.Album;
 import objects.Photo;
 import objects.Tag;
 import objects.User;
 
-public class UserController
+public class UserController extends Controller
 {
 	
 	User user;
+	Admin admin;
 	Stage primaryStage;
 	ObservableList<Tag> tags;
 	@FXML TextField newAlbum;
@@ -46,42 +48,42 @@ public class UserController
 	@FXML DatePicker startDate;
 	@FXML DatePicker endDate;
 	@FXML ListView<Tag> TagLV;
+	ObservableList<Album> albums;
 	
-	public void start(Stage primaryStage, User user){
+	public void start(Stage primaryStage, User user, Admin admin){
 		//System.out.println(3);
+		this.admin = admin;
 		this.primaryStage = primaryStage;
 		this.user = user;
-		albumList.setItems(user.getAlbums());
+		albums = FXCollections.observableArrayList();
+		//users.add(new User("nick"));
+		for(Album i:user.getAlbums()){
+			albums.add(i);
+		}
+		albumList.setItems(albums);
 		albumList.setCellFactory(param -> new XCell());
 		tags = FXCollections.observableArrayList();
 		TagLV.setItems(tags);
 	}
 	
 	public void logout(){
-		try{
-			FXMLLoader loginLoader = new FXMLLoader();
-			loginLoader.setLocation(getClass().getResource("/view/Login.fxml"));
-			AnchorPane root = (AnchorPane)loginLoader.load();
-			LoginController controller = loginLoader.getController();
-			controller.start(primaryStage);
-			Scene scene = new Scene(root,125,125);
-			primaryStage.setScene(scene);
-		}
-		catch(Exception e){}
+		user.updateArray(albums);
+		super.parentLogout(admin, primaryStage);
 	}
 	public void quit(){
-		primaryStage.close();
+		user.updateArray(albums);
+		super.parentQuit(admin, primaryStage);
 	}
 
 	public void newAlbum(){
-		if(user.getAlbums().contains(new Album(newAlbum.getText()))){
+		if(albums.contains(new Album(newAlbum.getText()))){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Invalid Album Name");
 			alert.setContentText("Invalid Album Name");
 			alert.showAndWait();
 		}
 		else{
-			user.getAlbums().add(new Album(newAlbum.getText()));
+			albums.add(new Album(newAlbum.getText()));
 		}
 		newAlbum.setText("");
 	}
@@ -104,8 +106,8 @@ public class UserController
 					matchingPhotos.add(photo);
 			}
 		}
-		ObservableList<Photo> obsList = FXCollections.observableArrayList(matchingPhotos);
-		openAlbum(new Album("", obsList));
+		//ObservableList<Photo> obsList = FXCollections.observableArrayList(matchingPhotos);
+		openAlbum(new Album("", matchingPhotos));
 		//go through each photo in each album and see if it matches criteria
 		tags.clear();
 		startDate.setValue(null);
@@ -159,13 +161,13 @@ public class UserController
 	}
 	//public Album search(){	}
 	 public void openAlbum(Album album){
-		 
+		 user.updateArray(albums);
 		 try{
 		 	FXMLLoader albumLoader = new FXMLLoader();
 			albumLoader.setLocation(getClass().getResource("/view/Album.fxml"));
 			AnchorPane root = (AnchorPane)albumLoader.load();
 			AlbumController controller = albumLoader.getController();
-			controller.start(primaryStage, album, user);
+			controller.start(primaryStage, album, user, admin);
 			Scene scene = new Scene(root,420,450);
 			primaryStage.setScene(scene);
 		 }
@@ -196,7 +198,8 @@ public class UserController
                     		result = dialog.showAndWait();
                     	}
                     	else{
-    	                	user.renameAlbum(album.getName(), newName);
+                    		album.changeName(newName);
+    	                	//user.renameAlbum(album.getName(), newName);
     	                	albumList.refresh();
     	                	break;
                     	}

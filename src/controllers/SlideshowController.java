@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,19 +7,22 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import objects.Admin;
 import objects.Album;
 import objects.User;
 
-public class SlideshowController {
+public class SlideshowController  extends Controller{
 	Album album;
+	Admin admin;
 	Stage primaryStage;
 	User user;
 	int index;
 	int length;
 	@FXML ImageView imView;
 	
-	public void start(Stage primaryStage, Album album, User user)
+	public void start(Stage primaryStage, Album album, User user, Admin admin)
 	{
+		this.admin = admin;
 		this.album = album;
 		this.primaryStage = primaryStage;
 		this.user = user;
@@ -61,11 +64,18 @@ public class SlideshowController {
 				albumLoader.setLocation(getClass().getResource("/view/Album.fxml"));
 				AnchorPane root = (AnchorPane)albumLoader.load();
 				AlbumController controller = albumLoader.getController();
-				controller.start(primaryStage, album, user);
+				controller.start(primaryStage, album, user, admin);
 				Scene scene = new Scene(root,420,450);
 				primaryStage.setScene(scene);
 			 }
 			 catch(Exception e){e.printStackTrace();}
+	}
+	
+	public void logout(){
+		super.parentLogout(admin, primaryStage);
+	}
+	public void quit(){
+		super.parentQuit(admin, primaryStage);
 	}
 
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AdminController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
       <ListView fx:id="userListView" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />
       <TextField fx:id="newUser" layoutY="190.0" onAction="#newUser" prefHeight="25.0" prefWidth="200.0" promptText="Add New User" />
