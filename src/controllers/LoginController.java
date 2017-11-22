@@ -14,7 +14,11 @@ import javafx.stage.Stage;
 import objects.Admin;
 import objects.User;
 
-
+/**
+ * Controller to handle logging in
+ * @author Nick
+ * @author Nithin
+ */
 public class LoginController extends Controller
 {
 	
@@ -23,6 +27,10 @@ public class LoginController extends Controller
 	Admin admin;
 	Stage primaryStage;
 	
+	/**
+	 * loads admin object from file if it exists and starts login scene
+	 * @param primaryStage stage to set scenes on
+	 */
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		try {
@@ -40,6 +48,10 @@ public class LoginController extends Controller
 	      }
 	}
 	
+	/**
+	 * if username entered is admin this method is called
+	 * loads admin controller
+	 */
 	public void startAdmin(){
 		try{
 			FXMLLoader adminLoader = new FXMLLoader();
@@ -54,6 +66,11 @@ public class LoginController extends Controller
 		}
 	}
 	
+	/**
+	 * if username entered exists this is called
+	 * loads usercontroller from given user
+	 * @param user user to be loaded
+	 */
 	public void startUser(User user){
 		try{
 			FXMLLoader userLoader = new FXMLLoader();
@@ -68,6 +85,7 @@ public class LoginController extends Controller
 		}
 	}
 	
+	/** reads username from TextField and validates */
 	public void checkUsername(){
 		if(username.getText().equals("admin")){
 			startAdmin();

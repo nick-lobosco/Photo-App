@@ -44,9 +44,14 @@ import objects.Photo;
 import objects.Tag;
 import objects.User;
 
+/**
+ * Loads scene for opening an album
+ * loaded from UserController
+ * @author Nick
+ * @author Nithin
+ */
 public class AlbumController extends Controller
 {
-	
 	Stage primaryStage;
 	Album album;
 	Admin admin;
@@ -58,6 +63,13 @@ public class AlbumController extends Controller
 	@FXML MenuItem deleteTag;
 	@FXML MenuItem move;
 	@FXML MenuItem copy;
+	
+	/** sets the scene on primary Stage and stores params in class 
+	 * @param primaryStage stage for each scene
+	 * @param album album to be loaded
+	 * @param user user that the album belongs to
+	 * @param admin admin object that the user belongs to
+	 * */
 	
 	public void start(Stage primaryStage, Album album, User user, Admin admin)
 	{
@@ -91,15 +103,22 @@ public class AlbumController extends Controller
 		});
 	}
 	
+	/**
+	 * goes to login screen and serializes admin object
+	 */
 	public void logout(){
 		album.updateArray(photos);
 		super.parentLogout(admin, primaryStage);
 	}
+	/**
+	 * exits app and serializes admin object
+	 */
 	public void quit(){
 		album.updateArray(photos);
 		super.parentQuit(admin, primaryStage);
 	}
 	
+	/** sets scene to previous scene */
 	public void goBack()
 	{
 		album.updateArray(photos);
@@ -116,6 +135,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** sets scene to display photo */
 	public void view()
 	{
 		album.updateArray(photos);
@@ -137,6 +157,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** sets scene to display slideshow */
 	public void slideshow()
 	{
 		album.updateArray(photos);
@@ -157,6 +178,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** adds new photo to album */
 	public void add()
 	{
 		try{
@@ -178,6 +200,7 @@ public class AlbumController extends Controller
 		catch(Exception f){}
 	}
 	
+	/** deletes photo from album */
 	public void delete()
 	{
 		if(!listView.getSelectionModel().isEmpty()){
@@ -185,6 +208,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** creates new album and adds to user object */
 	public void save(){
 		Dialog<String> dialog = new Dialog<>();
 		dialog.setTitle("Save Album");
@@ -232,6 +256,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** recaptions a photo */
 	public void editCaption()
 	{
 		Photo photo = listView.getSelectionModel().getSelectedItem();
@@ -280,6 +305,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** moves and copies photo to a different album */
 	public void moveorcopy(ActionEvent e)
 	{
 
@@ -346,6 +372,7 @@ public class AlbumController extends Controller
 		}
 	}
 	
+	/** edits Tag of photo in album */
 	public void editTag(ActionEvent e)
 	{
 		//System.out.println(e);

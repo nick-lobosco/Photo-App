@@ -36,6 +36,12 @@ import objects.Photo;
 import objects.Tag;
 import objects.User;
 
+/**
+ * Loads scene for specific user
+ * loaded from LoginController initially
+ * @author Nick
+ * @author Nithin
+ */
 public class UserController extends Controller
 {
 	
@@ -49,7 +55,12 @@ public class UserController extends Controller
 	@FXML DatePicker endDate;
 	@FXML ListView<Tag> TagLV;
 	ObservableList<Album> albums;
-	
+	/**
+	 * loads scene of all albums from user and allows for search by date or tag
+	 * @param primaryStage stage to set scenes on
+	 * @param user user to load albums from
+	 * @param admin admin object user belongs to
+	 */
 	public void start(Stage primaryStage, User user, Admin admin){
 		//System.out.println(3);
 		this.admin = admin;
@@ -65,16 +76,24 @@ public class UserController extends Controller
 		tags = FXCollections.observableArrayList();
 		TagLV.setItems(tags);
 	}
-	
+	/**
+	 * serializes admin and logs out
+	 */
 	public void logout(){
 		user.updateArray(albums);
 		super.parentLogout(admin, primaryStage);
 	}
+	/**
+	 * serializes admin and exits app
+	 */
 	public void quit(){
 		user.updateArray(albums);
 		super.parentQuit(admin, primaryStage);
 	}
 
+	/**
+	 * adds new album to user as long as album name is not already taken
+	 */
 	public void newAlbum(){
 		if(albums.contains(new Album(newAlbum.getText()))){
 			Alert alert = new Alert(AlertType.ERROR);
@@ -87,7 +106,10 @@ public class UserController extends Controller
 		}
 		newAlbum.setText("");
 	}
-	
+	/**
+	 * looks through user's albums and photos and compares search terms
+	 * if photo matches adds to new album
+	 */
 	public void search(){
 		//System.out.println(startDate.getValue());
 		//System.out.println(endDate.getValue());
@@ -114,6 +136,9 @@ public class UserController extends Controller
 		endDate.setValue(null);
 	}
 	
+	/**
+	 * adds tag to specific photo 
+	 */
 	public void addTag(){
 		// Create the custom dialog.
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -159,7 +184,11 @@ public class UserController extends Controller
 		if(!tags.contains(newTag))
 			tags.add(newTag);
 	}
-	//public Album search(){	}
+	
+	/**
+	 * opens album and sets scene to that album
+	 * @param album album to be loaded
+	 */
 	 public void openAlbum(Album album){
 		 user.updateArray(albums);
 		 try{
@@ -174,6 +203,12 @@ public class UserController extends Controller
 		 catch(Exception e){e.printStackTrace();}
      }
 	 
+	 /** 
+	  * class to format how albums are shown in the list
+	  * so each album has its own delete, rename and open buttons
+	  * @author Nick
+	  *
+	  */
 	class XCell extends ListCell<Album> {
         HBox hbox = new HBox();
         Label label = new Label("");

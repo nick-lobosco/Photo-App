@@ -1,3 +1,8 @@
+/**
+ * @author Nick
+ * @author Nithin
+ */
+
 package application;
 	
 import controllers.LoginController;
@@ -8,8 +13,10 @@ import javafx.scene.layout.AnchorPane;
 //import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
+	/**
+	 * Launches Login Screen
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try{

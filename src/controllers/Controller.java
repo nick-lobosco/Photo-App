@@ -10,9 +10,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import objects.Admin;
 
+/** 
+ * @author Nick
+ * @author Nithin
+ * Parent Class so other controllers can inherit quit and logout methods 
+*/
 public class Controller
 {
-
+	/**
+	 * exits app and serializes admin object
+	 */
 	public void parentQuit(Admin admin, Stage primaryStage){
 		try {
 	         FileOutputStream fileOut = 
@@ -26,7 +33,9 @@ public class Controller
 	      }
 		primaryStage.close();
 	}
-	
+	/**
+	 * goes to login screen and serializes admin object
+	 */
 	public void parentLogout(Admin admin, Stage primaryStage){
 		try {
 	         FileOutputStream fileOut = 

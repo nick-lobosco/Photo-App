@@ -14,6 +14,11 @@ import objects.Album;
 import objects.Photo;
 import objects.User;
 
+/**
+ * Controller to display photo from album
+ * @author Nick
+ * @author Nithin
+ */
 public class DisplayController extends Controller
 {
 	Admin admin;
@@ -25,6 +30,13 @@ public class DisplayController extends Controller
 	@FXML Label label;
 	@FXML Button back;
 	
+	/** sets the scene on primary Stage and stores params in class 
+	 * @param primaryStage stage for each scene
+	 * @param album album to be loaded
+	 * @param user user that the album belongs to
+	 * @param admin admin object that the user belongs to
+	 * @param photo photo to be displayed
+	 * */
 	public void start(Stage primaryStage, Photo photo, Album album, User user, Admin admin)
 	{
 		this.admin = admin;
@@ -40,10 +52,9 @@ public class DisplayController extends Controller
 		label.setText("Caption: "+ photo.getCaption() + "\n"+
 					   "Tags: "+ photo.tagString() + "\n"+
 						"Date: "+ photo.formatedDate());
-		//System.out.println(photo.tagString());
 		
 	}
-	
+	/** sets scene to previous scene */
 	public void back()
 	{
 		 try{
@@ -58,9 +69,11 @@ public class DisplayController extends Controller
 			 catch(Exception e){e.printStackTrace();}
 	}
 	
+	/** serializes admin and sets scene to login */
 	public void logout(){
 		super.parentLogout(admin, primaryStage);
 	}
+	/** serializes admin and exits app */
 	public void quit(){
 		super.parentQuit(admin, primaryStage);
 	}
